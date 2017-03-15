@@ -29,7 +29,3 @@ CHIP RAM512 {
     Mux8Way16(a=RAM0, b=RAM1, c=RAM2, d=RAM3, e=RAM4, f=RAM5, g=RAM6,
       h=RAM7, sel=address[0..2], out=out);
 }
-
-/*CHIP RAM64 {
-    IN in[16], load, address[6];
-    OUT out[16];*/
