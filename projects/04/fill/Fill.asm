@@ -15,31 +15,33 @@
 
 (LOOP)
   @KBD
-  D = M
-  @addr
-  M = D
-  @FILL
+  D=M
+  @FILLBLACK
   D; JNE
   @LOOP
   0;JMP
 
-(FILL)
-  @SCREEN
+(FILLBLACK)
+  @KBD
   D=A
   @addr
+  M=D-1
+  @i
   M=D
+  @SCREEN
+  D=A
+  @i
+  M=M-D
   (FILLLOOP)
     @addr
-    A = M
-    M = -1
+    A=M
+    M=-1
     @addr
-    M=M+1
+    M=M-1
+    @i
+    M=M-1
+    D=M
+    @LOOP
+    D;JEQ
     @FILLLOOP
     0;JMP
-  @END
-  0;JMP
-
-// END the software
-(END)
-  @END
-  0;JMP
