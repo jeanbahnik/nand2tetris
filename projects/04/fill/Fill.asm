@@ -29,12 +29,13 @@
   @addr
   M=D
   (FILLLOOP)
-    @SCREEN
-    M=-1
     @addr
-    M = M + 1
+    A = M
+    M = -1
+    @addr
+    M=M+1
     @FILLLOOP
-    0;JUMP
+    0;JMP
   @END
   0;JMP
 
