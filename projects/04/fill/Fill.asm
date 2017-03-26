@@ -15,6 +15,16 @@
 
 (LOOP)
   @KBD
+  D=A
+  @addr
+  M=D-1
+  @i
+  M=D
+  @SCREEN
+  D=A
+  @i
+  M=M-D
+  @KBD
   D=M
   @FILLBLACK
   D; JNE
@@ -22,51 +32,29 @@
   0;JMP
 
 (FILLBLACK)
-  @KBD
-  D=A
   @addr
-  M=D-1
+  A=M
+  M=-1
+  @addr
+  M=M-1
   @i
-  M=D
-  @SCREEN
-  D=A
-  @i
-  M=M-D
-  (FILLLOOPB)
-    @addr
-    A=M
-    M=-1
-    @addr
-    M=M-1
-    @i
-    M=M-1
-    D=M
-    @LOOP
-    D;JEQ
-    @FILLLOOPB
-    0;JMP
+  M=M-1
+  D=M
+  @LOOP
+  D;JEQ
+  @FILLBLACK
+  0;JMP
 
 (FILLWHITE)
-  @KBD
-  D=A
   @addr
-  M=D-1
+  A=M
+  M=0
+  @addr
+  M=M-1
   @i
-  M=D
-  @SCREEN
-  D=A
-  @i
-  M=M-D
-  (FILLLOOPW)
-    @addr
-    A=M
-    M=0
-    @addr
-    M=M-1
-    @i
-    M=M-1
-    D=M
-    @LOOP
-    D;JEQ
-    @FILLLOOPW
-    0;JMP
+  M=M-1
+  D=M
+  @LOOP
+  D;JEQ
+  @FILLWHITE
+  0;JMP
