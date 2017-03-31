@@ -28,30 +28,11 @@ CHIP Memory {
 
     PARTS:
     // Put your code here:
-    RAM16K(in=, load=, address=, out=); // RAM
-    Screen()
-    RAM8(in=, load=, address=, out=);
-    Register(in=, load=, out=);
+    DMux4Way(in=true, sel=address[13..14], a=DMux4Waya, b=DMux4Wayb, c=DMux4Wayc, d=DMux4Wayd);
+    Or(a=DMux4Waya, b=DMux4Wayb, out=RAM16);
+    And(a=RAM16, b=load, out=RAM16load);
+    RAM16K(in=in, load=RAM16load, address=address[0..13], out=RAM16out);
+    Screen(in=in, load=DMux4Wayc, address=address[0..12], out=screenOut);
+    Keyboard(out=KeyboardOut);
+    Mux4Way16(a=RAM16out, b=RAM16out, c=screenOut, d=KeyboardOut, sel=address[13..14], out=out);
 }
-
-
-
-
-
-
-
-
-
-
-
-CHIP RAM16K {
-    IN in[16], load, address[14];
-    OUT out[16];
-
-CHIP RAM8 {
-    IN in[16], load, address[3];
-    OUT out[16];
-
-CHIP Register {
-    IN in[16], load;
-    OUT out[16];
