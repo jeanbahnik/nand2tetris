@@ -63,5 +63,43 @@ CHIP CPU {
     PARTS:
     // Put your code here:
     // instruction
-    // 1 11 a cccccc ddd jjj
+    // i xx a cccccc ddd jjj
+    Not(in=instruction[15], out=notOp);
+    Mux16(a=aluOut, b=instruction, sel=notOp, out=firstMuxOut);
+    Or(a=notOp, b=instruction[5], out=intoA);
+    ARegister(in=firstMuxOut, load=intoA, out=ARegisterOut, out[0..14]=addressM);
+
+    And(a=instruction[4], b=instruction[15], out=intoD);
+    DRegister(in=aluOut, load=intoD, out=DRegisterOut);
+    And(a=instruction[15], b=instruction[12], out=Mux2Switch);
+    Mux16(a=ARegisterOut, b=inM, sel=Mux2Switch, out=Mux2Out);
+
+    ALU(x=DRegisterOut, y=Mux2Out,
+      zx=instruction[11],
+      nx=instruction[10],
+      zy=instruction[9],
+      ny=instruction[8],
+      f=instruction[7],
+      no=instruction[6],
+      out=aluOut,
+      out=outM,
+      zr=zrOut,
+      ng=ngOut
+    );
+
+    And(a=instruction[15], b=instruction[3], out=writeM);
+
+    Not(in=zrOut, out=nzr);
+    Not(in=ngOut, out=pos);
+    And(a=instruction[15], b=instruction[0], out=jgt);
+    And(a=pos, b=nzr, out=posnzr);
+    And(a=jgt, b=posnzr, out=ld1);
+    And(a=instruction[15], b=instruction[1], out=jeq);
+    And(a=jeq, b=zrOut, out=ld2);
+    And(a=instruction[15], b=instruction[2], out=jlt);
+    And(a=jlt, b=ngOut, out=ld3);
+    Or(a=ld1, b=ld2, out=ldt);
+    Or(a=ld3, b=ldt, out=ld);
+
+    PC(in=ARegisterOut, load=ld, inc=true, reset=reset, out[0..14]=pc);
 }
