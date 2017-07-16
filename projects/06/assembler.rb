@@ -1,7 +1,7 @@
 file = ARGV[0]
-exportFile = File.new("#{file}.hack", "w")
-importFile = File.open("#{file}/#{file}.asm")
+import_file = File.open("#{file}/#{file}.asm")
+export_file = File.new("#{file}.hack", "w")
 
-importFile.each_line do |line|
-    
+import_file.each_line do |line|
+
 end
