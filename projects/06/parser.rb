@@ -9,7 +9,7 @@ class Parser
   end
 
   def is_a_command
-    @line[0] == "@"
+    @line[0] == "@" && @line[1] =~ /\d/
   end
 
   def is_c_command
