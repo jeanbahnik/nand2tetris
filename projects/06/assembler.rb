@@ -1,8 +1,9 @@
 require_relative 'parser'
 require_relative 'code'
 
-file = ARGV[0]
-import_file = File.open("#{file}/#{file}.asm")
+folder = ARGV[0]
+file = ARGV[1]
+import_file = File.open("#{folder}/#{file}.asm")
 export_file = File.new("#{file}.hack", "w")
 
 import_file.each_line do |line|

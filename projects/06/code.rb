@@ -11,14 +11,20 @@ class Code
   }.freeze
 
   COMPUTE = {
+    # a = 0
+    "0" => "0101010",
     "D" => "0001100",
     "A" => "0110000",
     "D+A" => "0000010",
-    "M" => "1110000"
+    # a = 1
+    "M" => "1110000",
+    "D-M" => "1010011"
   }.freeze
 
   JUMP = {
-    "" => "000"
+    "" => "000",
+    "JGT" => "001",
+    "JMP" => "111"
   }.freeze
 
   attr_accessor :dest, :comp, :jump
@@ -33,6 +39,10 @@ class Code
 
   def translate_c_command
     break_c_command
+
+    p "Missing COMPUTE: #{@comp}" if COMPUTE[@comp.to_s].nil?
+    p "Missing DESTINATION: #{@dest}" if DESTINATION[@dest.to_s].nil?
+    p "Missing JUMP: #{@jmp}" if JUMP[@jmp.to_s].nil?
 
     return "111" + COMPUTE[@comp.to_s] + DESTINATION[@dest.to_s] + JUMP[@jmp.to_s]
   end
