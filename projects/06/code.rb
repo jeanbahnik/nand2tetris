@@ -1,8 +1,4 @@
-class Code
-
-  # D=A
-  # D=D+A
-  # M=D
+module Code
 
   DESTINATION = {
     "" => "000",
@@ -27,34 +23,39 @@ class Code
     "JMP" => "111"
   }.freeze
 
-  attr_accessor :dest, :comp, :jump
-
-  def initialize(line)
-    @line = line
+  def Code.translate_a_command(line)
+    line[1..-1].to_i.to_s(2).rjust(16, '0')
   end
 
-  def translate_a_command
-    @line[1..-1].to_i.to_s(2).rjust(16, '0')
+  def Code.translate_c_command(line)
+    dest = line.include?('=') ? Code.get_dest(line) : ""
+    comp = Code.get_comp(line)
+    jmp = line.include?(';') ? Code.get_jmp(line) : ""
+
+    p "Missing COMPUTE: #{comp}" if COMPUTE[comp.to_s].nil?
+    p "Missing DESTINATION: #{dest}" if DESTINATION[dest.to_s].nil?
+    p "Missing JUMP: #{jmp}" if JUMP[jmp.to_s].nil?
+
+    "111" + COMPUTE[comp.to_s] + DESTINATION[dest.to_s] + JUMP[jmp.to_s]
   end
 
-  def translate_c_command
-    break_c_command
-
-    p "Missing COMPUTE: #{@comp}" if COMPUTE[@comp.to_s].nil?
-    p "Missing DESTINATION: #{@dest}" if DESTINATION[@dest.to_s].nil?
-    p "Missing JUMP: #{@jmp}" if JUMP[@jmp.to_s].nil?
-
-    return "111" + COMPUTE[@comp.to_s] + DESTINATION[@dest.to_s] + JUMP[@jmp.to_s]
+  def Code.get_dest(line)
+    line.partition('=').first
   end
 
-  def break_c_command
-    if @line.include?('=')
-      @dest = @line.partition('=').first
-      @comp = @line.partition('=').last
-    end
-    if @line.include?(';')
-      @comp = @line.partition(';').first
-      @jmp = @line.partition(';').last
+  def Code.get_comp(line)
+    if line.include?('=')
+      line.partition('=').last
+    else
+      line.partition(';').first
     end
   end
+
+  def Code.get_jmp(line)
+    line.partition(';').last
+  end
+
+  # def Code.translate_symbol(line)
+  #   @symbols_and_variables[line[1..-1]].to_i.to_s(2).rjust(16, '0')
+  # end
 end

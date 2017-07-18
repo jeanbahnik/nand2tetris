@@ -1,18 +1,31 @@
-class Parser
+module Parser
 
-  def initialize(line)
-    @line = line
+  def Parser.is_comment(line)
+    line[0..1] == "//"
   end
 
-  def is_comment
-    @line[0..1] == "//"
+  def Parser.has_comment(line)
+    line.include?('//')
   end
 
-  def is_a_command
-    @line[0] == "@" && @line[1] =~ /\d/
+  def Parser.is_a_command(line)
+    line[0] == "@" && line[1] =~ /\d/
   end
 
-  def is_c_command
-    @line.include?('=') || @line.include?(';')
+  def Parser.is_c_command(line)
+    line.include?('=') || line.include?(';')
   end
+
+  def Parser.is_a_symbol(line)
+    Parser.is_a_variable(line) || Parser.is_a_label(line)
+  end
+
+  def Parser.is_a_variable(line)
+    line[0] == "@"
+  end
+
+  def Parser.is_a_label(line)
+    line[0] == '('
+  end
+
 end
