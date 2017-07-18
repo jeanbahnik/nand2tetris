@@ -16,10 +16,6 @@ module Parser
     line.include?('=') || line.include?(';')
   end
 
-  def Parser.is_a_symbol(line)
-    Parser.is_a_variable(line) || Parser.is_a_label(line)
-  end
-
   def Parser.is_a_variable(line)
     line[0] == "@"
   end

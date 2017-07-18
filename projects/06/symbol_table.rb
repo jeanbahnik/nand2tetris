@@ -1,6 +1,4 @@
 class SymbolTable
-  attr_accessor :symbols_and_variables, :table_address
-
   def initialize
     @symbols_and_variables = {
       "R0" => "0",

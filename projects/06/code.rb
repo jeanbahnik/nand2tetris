@@ -54,8 +54,4 @@ module Code
   def Code.get_jmp(line)
     line.partition(';').last
   end
-
-  # def Code.translate_symbol(line)
-  #   @symbols_and_variables[line[1..-1]].to_i.to_s(2).rjust(16, '0')
-  # end
 end
