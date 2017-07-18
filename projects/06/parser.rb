@@ -17,7 +17,7 @@ module Parser
   end
 
   def Parser.is_a_variable(line)
-    line[0] == "@"
+    line[0] == "@" && !(line[1] =~ /[[:alpha:]]/).nil?
   end
 
   def Parser.is_a_label(line)

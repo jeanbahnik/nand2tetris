@@ -1,4 +1,6 @@
 class SymbolTable
+  attr_reader :symbols_and_variables
+
   def initialize
     @symbols_and_variables = {
       "R0" => "0",
@@ -46,7 +48,7 @@ class SymbolTable
     while @symbols_and_variables.value?(@table_address.to_s) do
       @table_address += 1
     end
-    @table_address
+    @table_address.to_s
   end
 
 end
